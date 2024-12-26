@@ -185,6 +185,15 @@ EOF
               end,
             },
             mapping = cmp.mapping.preset.insert(),
+            mapping = {
+              ['<C-n>'] = cmp.mapping.select_next_item(),
+              ['<C-p>'] = cmp.mapping.select_prev_item(),
+              ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+              ['<C-f>'] = cmp.mapping.scroll_docs(4),
+              ['<C-Space>'] = cmp.mapping.complete(),
+              ['<C-e>'] = cmp.mapping.abort(),
+              ['<Tab>'] = cmp.mapping.confirm({ select = true }),
+              },
             sources = {
               { name = 'nvim_lsp' },
               { name = 'buffer' },
@@ -197,6 +206,15 @@ EOF
           require('lualine').setup {
             options = { theme = 'tokyonight' }
           }
+
+          -- Autopairs setup
+          require('nvim-autopairs').setup{}
+
+          -- Comment.nvim setup
+          require('Comment').setup()
+
+          -- Which-key setup
+          require('which-key').setup()
 
           -- nvim-tree setup
           require('nvim-tree').setup({
