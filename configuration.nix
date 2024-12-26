@@ -7,6 +7,8 @@
   environment.systemPackages = with pkgs; [
     neovim
     nil
+    vimPlugins.nvim-tree-lua
+    vimPlugins.nvim-web-devicons
     curl
     git
     python3
@@ -181,6 +183,17 @@ EOF
             options = { theme = 'tokyonight' }
           }
 
+          -- nvim-tree setup
+          require('nvim-tree').setup({
+            sort_by = "case_sensitive",
+            view = {
+              width = 30,
+            },
+            renderer = {
+              group_empty = true,
+            },
+          })
+
           -- Gitsigns setup
           require('gitsigns').setup()
           EOF
@@ -193,6 +206,8 @@ EOF
   environment.variables = {
     NIX_SSL_CERT_FILE = "/etc/ssl/cert.pem";
   };
+
+  security.pam.enableSudoTouchIdAuth = true;
 
   services.nix-daemon.enable = true;
   nix.package = pkgs.nix;
