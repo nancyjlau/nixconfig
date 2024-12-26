@@ -19,6 +19,9 @@
     docker_27
     tree
     poetry
+    haskell-language-server
+    clang-tools
+    rust-analyzer
   ];
 
   homebrew = {
@@ -155,6 +158,8 @@ EOF
           require('lspconfig').ocamllsp.setup{}
           require('lspconfig').hls.setup{}
           require('lspconfig').nil_ls.setup{}
+          require('lspconfig').clangd.setup{}
+          require('lspconfig').rust_analyzer.setup{}
 
           -- Treesitter configuration
           require('nvim-treesitter.configs').setup {
