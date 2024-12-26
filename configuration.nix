@@ -7,6 +7,10 @@
   environment.systemPackages = with pkgs; [
     neovim
     nil
+    ripgrep
+    fd
+    htop
+    fzf
     vimPlugins.nvim-tree-lua
     vimPlugins.nvim-web-devicons
     curl
@@ -22,6 +26,7 @@
     haskell-language-server
     clang-tools
     rust-analyzer
+    gopls
   ];
 
   homebrew = {
@@ -110,6 +115,11 @@ EOF
             plugin = tokyonight-nvim;
             config = "colorscheme tokyonight-night";
           }
+          vim-fugitive
+          nvim-autopairs
+          comment-nvim
+          which-key-nvim
+          indent-blankline-nvim
           nvim-treesitter.withAllGrammars
           telescope-nvim
           nvim-tree-lua
