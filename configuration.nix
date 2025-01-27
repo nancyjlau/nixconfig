@@ -36,7 +36,7 @@
     enable = true;
     # onActivation.cleanup = "uninstall";
     taps = [];
-    brews = [ "libiconv" "git-lfs" "gradle" "aria2"];
+    brews = [ "libiconv" "git-lfs" "gradle" "aria2" "ngspice"];
     casks = [ "ghidra" "xquartz"];
   };
 
