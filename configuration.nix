@@ -23,18 +23,21 @@
     docker_27
     tree
     poetry
+    jdt-language-server
     haskell-language-server
     clang-tools
     rust-analyzer
     gopls
+    lima
+    minicom
   ];
 
   homebrew = {
     enable = true;
     # onActivation.cleanup = "uninstall";
     taps = [];
-    brews = [ "libiconv" "git-lfs" "gradle" "aria2" ];
-    casks = [ "ghidra" ];
+    brews = [ "libiconv" "git-lfs" "gradle" "aria2"];
+    casks = [ "ghidra" "xquartz"];
   };
 
   environment.profiles = [
@@ -58,6 +61,7 @@
         # Set session path to include the user profile
         sessionPath = [ "/etc/profiles/per-user/rose/bin" ];
         packages = with pkgs; [
+          gnupg
           ocaml
           ihaskell
           atool
@@ -67,6 +71,7 @@
           nushell
           tmux
           python312Packages.matplotlib
+          python312Packages.ipykernel
           openjdk
         ];
         stateVersion = "24.05";
@@ -90,8 +95,7 @@
       /⁻ ៸|   |、՛〵
   乀(ˍ,ل  ل   じしˍ,)ノ
 EOF
-
-          export PATH="/etc/profiles/per-user/rose/bin:/opt/homebrew/bin:$PATH"
+          export PATH="/etc/profiles/per-user/rose/bin:/opt/homebrew/bin:$HOME/utils/oss-cad-suite/bin:$HOME/utils/sv2v-macOS:/Applications/klayout.app/Contents/Buddy:$PATH:$HOME/utils/verible-v0.0-3899-g75c38daf-macOS/bin"
           if [ -e '/etc/profiles/per-user/rose/etc/profile.d/hm-session-vars.sh' ]; then
             . '/etc/profiles/per-user/rose/etc/profile.d/hm-session-vars.sh'
           fi
@@ -206,6 +210,21 @@ EOF
           require('lualine').setup {
             options = { theme = 'tokyonight' }
           }
+
+          -- configure diagnostic display
+          vim.diagnostic.config({
+           float = {
+            max_width = 50,  -- Adjust this value to your preference
+            wrap = true,     -- Enable wrapping in floating windows
+           },
+           virtual_text = {
+            prefix = '●',    -- You can change this to any character you prefer
+            spacing = 4,
+            },
+          })
+
+          -- Java LSP configuration
+          require('lspconfig').jdtls.setup{}
 
           -- Autopairs setup
           require('nvim-autopairs').setup{}
