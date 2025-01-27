@@ -17,7 +17,7 @@
             buildInputs = with pkgs; [
               python312
               python312Packages.pip
-              python312Packages.venv
+              virtualenv  # changed from venv
               python312Packages.matplotlib
               python312Packages.ipykernel
               python312Packages.cmake
