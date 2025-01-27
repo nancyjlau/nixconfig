@@ -1,21 +1,37 @@
 {
-  description = "nix darwin system";
+  description = "Development environments";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
-    darwin.url = "github:lnl7/nix-darwin";
-    darwin.inputs.nixpkgs.follows = "nixpkgs";
-    home-manager.url = "github:nix-community/home-manager";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    flake-utils.url = "github:numtide/flake-utils";
   };
 
-  outputs = { self, darwin, nixpkgs, home-manager }: {
-    darwinConfigurations."meowbook" = darwin.lib.darwinSystem {
-      system = "aarch64-darwin";
-      modules = [ 
-        ./configuration.nix
-        home-manager.darwinModules.home-manager
-      ];
-    };
-  };
+  outputs = { self, nixpkgs, flake-utils }:
+    flake-utils.lib.eachDefaultSystem (system:
+      let
+        pkgs = nixpkgs.legacyPackages.${system};
+      in
+      {
+        devShells = {
+          python-chip = pkgs.mkShell {
+            buildInputs = with pkgs; [
+              python312
+              python312Packages.pip
+              python312Packages.venv
+              python312Packages.matplotlib
+              python312Packages.ipykernel
+              python312Packages.cmake
+            ];
+            
+            shellHook = ''
+              if [ ! -d "venv" ]; then
+                python -m venv venv
+              fi
+              source venv/bin/activate
+              pip list | grep -F volare || pip install volare
+            '';
+          };
+        };
+      }
+    );
 }
